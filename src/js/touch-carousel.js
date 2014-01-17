@@ -54,7 +54,7 @@
   TouchCarousel.prototype._regTouchGestures = function() {
     this.$itemsWrapper
       .hammer({ drag_lock_to_axis: true })
-      .on("release dragleft dragright swipeleft swiperight", $.proxy(this._handleGestures, this));
+      .on("release dragleft dragright swipeleft swiperight tap", $.proxy(this._handleGestures, this));
   }
 
   TouchCarousel.prototype._setPaneDimensions= function() {
@@ -136,6 +136,11 @@
   }
 
   TouchCarousel.prototype._handleGestures = function( e ) {
+    if (e.type == 'tap') {
+      e.gesture.stopDetect();
+      return true;
+    }
+
     // disable browser scrolling
     e.gesture.preventDefault();
 
