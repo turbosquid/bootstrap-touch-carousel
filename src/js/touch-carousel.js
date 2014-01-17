@@ -40,7 +40,7 @@
 
   TouchCarousel.prototype.to = function (pos) {
     if (pos > (this.$items.length - 1) || pos < 0) return
-    return this._showPane( pos );
+    return this._showPane( pos, true );
   }
 
   TouchCarousel.prototype.pause = function (e) {
@@ -66,10 +66,12 @@
     this.$items.width( this.pane_width );
   }
 
-  TouchCarousel.prototype._showPane= function( index ) {
+  TouchCarousel.prototype._showPane= function( index, immediate) {
+
+      immediate = immediate || false;
 
       // remove class from prev pane
-      this.$items.eq( this.current_pane ).toggleClass('active');
+      this.$items.removeClass('active');
 
       // Last Item reached
       if( index >= this.pane_count) {
@@ -83,7 +85,7 @@
       this.current_pane = index;
 
       var offset = -((100/this.pane_count) * this.current_pane);
-      this._setContainerOffset(offset, true, index);
+      this._setContainerOffset(offset, !immediate, index);
 
       return this;
   }
@@ -185,7 +187,7 @@
             }
         }
         else {
-            this._showPane( this.current_pane, true );
+            this._showPane( this.current_pane);
         }
         break;
     }
